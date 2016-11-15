@@ -1,7 +1,7 @@
 package reactintro
 
 import japgolly.scalajs.react.vdom.all._
-import japgolly.scalajs.react.{BackendScope, Callback, ReactComponentB, ReactDOM, ReactEvent}
+import japgolly.scalajs.react._
 import org.scalajs.dom._
 
 import scala.scalajs.js.annotation.JSExport
@@ -15,16 +15,25 @@ object Exercise1 {
     */
   class Backend(scope: BackendScope[Unit, State]) {
 
+    def handleClick(e:ReactEvent):Callback =
+      scope.modState(state => !state )
+
+    def onButtonPressed: Callback = {
+      // Callback.alert("The button was pressed!") >>
+      scope.modState(state => !state )
+    }
+
     def render(state: State) = // ← Accept props, state and/or propsChildren as argument
       div(
         button(
-          classSet(
+          onClick -->  onButtonPressed,
+            classSet(
             "btn" -> true,
             "btn-primary" -> true,
             "active" -> false
           )
         )
-        ("Off")
+        ( if (state == false) "Off" else "On" )
       )
   }
 

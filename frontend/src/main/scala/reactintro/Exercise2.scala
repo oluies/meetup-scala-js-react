@@ -17,9 +17,12 @@ object Exercise2 {
 
     class Backend(scope: BackendScope[Props, State]) {
 
-      def onInputChange(props:Props)(e:ReactEventI) : Callback =
-        Callback.warn("Not implemented")
-       //TODO: Time to filter the table
+      def onInputChange(props:Props)(e:ReactEventI) : Callback = {
+        val filter:String = e.currentTarget.value
+
+        scope.modState(state => props.filter( a =>  filter.r.findFirstIn( a.name).isDefined ) )
+      }
+
 
       val headers = List(
         Header.withKey(1)(HeaderProps("Name")),
